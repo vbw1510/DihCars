@@ -1,0 +1,1461 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DihCars | Rifas Automotivas</title>
+
+  <style>
+    :root {
+      --gold: #f4b942;
+      --gold-light: #ffd875;
+      --bg: #090909;
+      --surface: #131313;
+      --surface-2: #1b1b1b;
+      --line: #292929;
+      --muted: #929292;
+      --white: #f6f6f3;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--white);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .dih-app {
+      max-width: 1180px;
+      margin: auto;
+      background: var(--bg);
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+
+    .dih-header {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      border-bottom: 1px solid #202020;
+      background: #0a0a0a;
+      gap: 20px;
+    }
+
+    .dih-logo {
+      border: 0;
+      background: none;
+      color: white;
+      text-align: left;
+      font-weight: 950;
+      font-size: 25px;
+      letter-spacing: -1.7px;
+      line-height: .9;
+      padding: 0;
+    }
+
+    .dih-logo span {
+      color: var(--gold);
+    }
+
+    .dih-logo small {
+      display: block;
+      color: #777;
+      font-size: 7px;
+      letter-spacing: 3px;
+      margin-top: 7px;
+      font-weight: 700;
+    }
+
+    .dih-nav {
+      display: flex;
+      gap: 27px;
+      align-items: center;
+    }
+
+    .dih-nav button,
+    .dih-login {
+      border: 0;
+      background: none;
+      color: #a3a3a3;
+      font-size: 12px;
+    }
+
+    .dih-nav button:hover,
+    .dih-login:hover {
+      color: white;
+    }
+
+    .dih-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dih-cart-button {
+      position: relative;
+      background: #202020;
+      border: 1px solid #333;
+      color: white;
+      width: 37px;
+      height: 37px;
+      border-radius: 50%;
+    }
+
+    .dih-cart-count {
+      position: absolute;
+      top: -5px;
+      right: -4px;
+      width: 17px;
+      height: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #111;
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .dih-menu {
+      display: none;
+      border: 1px solid #333;
+      color: #fff;
+      background: #1c1c1c;
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+
+    /* HERO / PRODUCT */
+
+    .dih-hero {
+      padding: 27px 30px 30px;
+      background:
+        radial-gradient(
+          ellipse at 70% 30%,
+          #252016 0%,
+          #111 34%,
+          #090909 72%
+        );
+    }
+
+    .dih-breadcrumb {
+      font-size: 10px;
+      color: #777;
+      margin-bottom: 19px;
+    }
+
+    .dih-breadcrumb span {
+      color: var(--gold);
+    }
+
+    .dih-main-grid {
+      display: grid;
+      grid-template-columns: 1.12fr .88fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .dih-gallery {
+      min-width: 0;
+    }
+
+    .dih-main-image-wrap {
+      position: relative;
+      aspect-ratio: 1.28 / 1;
+      min-height: 320px;
+      border: 1px solid #292929;
+      border-radius: 17px;
+      overflow: hidden;
+      background: #202020;
+    }
+
+    .dih-main-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .dih-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        0deg,
+        rgba(0,0,0,.4),
+        transparent 45%
+      );
+      pointer-events: none;
+    }
+
+    .dih-feature-tag {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      padding: 7px 10px;
+      background: rgba(12,12,12,.82);
+      border: 1px solid #4a3b1b;
+      color: var(--gold-light);
+      font-size: 9px;
+      border-radius: 6px;
+      letter-spacing: 1px;
+      font-weight: 800;
+    }
+
+    .dih-gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid #555;
+      color: #fff;
+      background: rgba(0,0,0,.55);
+    }
+
+    .dih-gallery-arrow.left {
+      left: 13px;
+    }
+
+    .dih-gallery-arrow.right {
+      right: 13px;
+    }
+
+    .dih-thumbs {
+      display: flex;
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .dih-thumb {
+      width: 78px;
+      height: 55px;
+      padding: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #333;
+      background: #111;
+      opacity: .65;
+    }
+
+    .dih-thumb.active {
+      border: 2px solid var(--gold);
+      opacity: 1;
+    }
+
+    .dih-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* INFO CARD */
+
+    .dih-info-card {
+      background: linear-gradient(145deg, #202020, #151515);
+      border: 1px solid #303030;
+      border-radius: 17px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .dih-status {
+      color: #70d5a4;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      display: flex;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .dih-status i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ad495;
+    }
+
+    .dih-info-card h1 {
+      margin: 14px 0 8px;
+      font-size: clamp(26px, 3vw, 37px);
+      line-height: 1.04;
+      letter-spacing: -1.4px;
+    }
+
+    .dih-subtitle {
+      color: #a0a0a0;
+      font-size: 12px;
+      margin-bottom: 19px;
+    }
+
+    .dih-cash {
+      color: #181818;
+      background: #f5f5f3;
+      border-radius: 7px;
+      text-align: center;
+      padding: 10px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 22px;
+    }
+
+    .dih-countdown-label {
+      color: #888;
+      text-align: center;
+      font-size: 10px;
+      margin-bottom: 8px;
+    }
+
+    .dih-countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: #191919;
+      border: 1px solid #292929;
+      border-radius: 11px;
+      padding: 14px 5px;
+      margin-bottom: 20px;
+    }
+
+    .dih-count-cell {
+      text-align: center;
+      border-right: 1px solid #333;
+    }
+
+    .dih-count-cell:last-child {
+      border: 0;
+    }
+
+    .dih-count-cell strong {
+      display: block;
+      font-size: 20px;
+    }
+
+    .dih-count-cell span {
+      color: #858585;
+      font-size: 9px;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .dih-stat-row {
+      display: flex;
+      justify-content: space-between;
+      color: #999;
+      font-size: 10px;
+      margin-bottom: 8px;
+    }
+
+    .dih-stat-row b {
+      color: #ddd;
+    }
+
+    .dih-progress {
+      height: 6px;
+      background: #333;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 19px;
+    }
+
+    .dih-progress div {
+      height: 100%;
+      width: 74%;
+      border-radius: 99px;
+      background: linear-gradient(
+        90deg,
+        #bd841e,
+        var(--gold-light)
+      );
+    }
+
+    .dih-highlights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-bottom: 20px;
+    }
+
+    .dih-highlight {
+      text-align: center;
+      border-right: 1px solid #333;
+    }
+
+    .dih-highlight:last-child {
+      border: 0;
+    }
+
+    .dih-highlight strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .dih-highlight span {
+      color: #888;
+      font-size: 9px;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .dih-buy-row {
+      display: flex;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .dih-qty {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #444;
+      border-radius: 10px;
+      height: 48px;
+      padding: 0 7px;
+      min-width: 135px;
+    }
+
+    .dih-qty button {
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 7px;
+      background: #292929;
+      color: #fff;
+      font-size: 19px;
+    }
+
+    .dih-qty strong {
+      font-size: 14px;
+    }
+
+    .dih-buy {
+      flex: 1;
+      height: 48px;
+      border: 0;
+      border-radius: 10px;
+      background: linear-gradient(100deg, #e7a929, #ffca51);
+      color: #16120a;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .dih-buy:hover {
+      filter: brightness(1.08);
+    }
+
+    .dih-buy small {
+      opacity: .65;
+      font-weight: 800;
+      margin-left: 8px;
+    }
+
+    .dih-note {
+      color: #656565;
+      font-size: 9px;
+      text-align: center;
+      margin-top: 13px;
+      line-height: 1.5;
+    }
+
+    /* CAMPAIGNS */
+
+    .dih-campaign-section {
+      padding: 33px 30px 38px;
+      border-top: 1px solid #202020;
+    }
+
+    .dih-section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .dih-section-title h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -.8px;
+    }
+
+    .dih-section-title p {
+      color: #777;
+      font-size: 11px;
+      margin: 7px 0 0;
+    }
+
+    .dih-view-all {
+      border: 0;
+      background: none;
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .dih-campaign-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .dih-campaign-card {
+      border: 1px solid #292929;
+      background: #141414;
+      border-radius: 13px;
+      overflow: hidden;
+      transition: .2s;
+    }
+
+    .dih-campaign-card:hover {
+      transform: translateY(-3px);
+      border-color: #665020;
+    }
+
+    .dih-campaign-photo {
+      height: 145px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dih-campaign-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: .3s;
+    }
+
+    .dih-campaign-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .dih-card-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,.72);
+      border: 1px solid #493b1d;
+      color: var(--gold-light);
+      border-radius: 5px;
+      padding: 5px 7px;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .7px;
+    }
+
+    .dih-campaign-body {
+      padding: 14px;
+    }
+
+    .dih-campaign-body h3 {
+      font-size: 14px;
+      margin: 0 0 5px;
+    }
+
+    .dih-campaign-body p {
+      color: #7e7e7e;
+      font-size: 10px;
+      margin: 0 0 14px;
+    }
+
+    .dih-card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+    }
+
+    .dih-card-bottom label {
+      color: #777;
+      font-size: 9px;
+      display: block;
+    }
+
+    .dih-card-bottom strong {
+      color: #f0f0ed;
+      font-size: 16px;
+      display: block;
+      margin-top: 3px;
+    }
+
+    .dih-card-bottom strong small {
+      color: #777;
+      font-size: 9px;
+      font-weight: 500;
+    }
+
+    .dih-card-btn {
+      border: 1px solid #604d1b;
+      background: #2a2110;
+      color: var(--gold-light);
+      padding: 9px 11px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .dih-card-btn:hover {
+      background: #4a3714;
+    }
+
+    /* FOOTER */
+
+    .dih-footer {
+      border-top: 1px solid #202020;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #666;
+      font-size: 9px;
+    }
+
+    .dih-footer b {
+      color: #c9c9c9;
+      font-size: 12px;
+    }
+
+    .dih-footer-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    .dih-footer-links button {
+      border: 0;
+      background: none;
+      color: #777;
+      font-size: 9px;
+    }
+
+    /* CART DRAWER */
+
+    .dih-cart-drawer {
+      position: fixed;
+      z-index: 20;
+      top: 0;
+      right: -410px;
+      width: min(390px, 100%);
+      height: 100%;
+      background: #151515;
+      border-left: 1px solid #383838;
+      transition: right .28s ease;
+      box-shadow: -15px 0 45px rgba(0,0,0,.35);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dih-cart-drawer.open {
+      right: 0;
+    }
+
+    .dih-cart-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px;
+      border-bottom: 1px solid #2c2c2c;
+    }
+
+    .dih-cart-head h2 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .dih-cart-close {
+      border: 0;
+      background: none;
+      color: #aaa;
+      font-size: 25px;
+    }
+
+    .dih-cart-body {
+      flex: 1;
+      padding: 20px;
+      overflow: auto;
+    }
+
+    .dih-cart-item {
+      display: flex;
+      gap: 12px;
+      background: #202020;
+      border: 1px solid #303030;
+      padding: 11px;
+      border-radius: 10px;
+    }
+
+    .dih-cart-item img {
+      width: 82px;
+      height: 65px;
+      object-fit: cover;
+      border-radius: 7px;
+    }
+
+    .dih-cart-item h3 {
+      font-size: 12px;
+      margin: 2px 0 7px;
+    }
+
+    .dih-cart-item p {
+      font-size: 10px;
+      color: #888;
+      margin: 0;
+    }
+
+    .dih-cart-item strong {
+      color: var(--gold);
+      font-size: 13px;
+      display: block;
+      margin-top: 7px;
+    }
+
+    .dih-cart-empty {
+      text-align: center;
+      color: #777;
+      font-size: 12px;
+      padding: 40px 10px;
+    }
+
+    .dih-cart-foot {
+      border-top: 1px solid #2c2c2c;
+      padding: 20px;
+    }
+
+    .dih-cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .dih-cart-total span {
+      color: #999;
+      font-size: 12px;
+    }
+
+    .dih-cart-total strong {
+      color: var(--gold-light);
+      font-size: 23px;
+    }
+
+    .dih-checkout {
+      width: 100%;
+      border: 0;
+      background: var(--gold);
+      color: #17120a;
+      border-radius: 10px;
+      padding: 14px;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .dih-cart-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 19;
+      background: rgba(0,0,0,.62);
+      display: none;
+    }
+
+    .dih-cart-overlay.show {
+      display: block;
+    }
+
+    .dih-toast {
+      position: fixed;
+      z-index: 30;
+      right: 20px;
+      bottom: 20px;
+      background: #252525;
+      border: 1px solid #59471e;
+      color: #ffe09a;
+      border-radius: 9px;
+      padding: 13px 16px;
+      font-size: 11px;
+      display: none;
+    }
+
+    /* RESPONSIVO */
+
+    @media (max-width: 800px) {
+      .dih-header {
+        padding: 0 18px;
+        height: 64px;
+      }
+
+      .dih-nav {
+        display: none;
+      }
+
+      .dih-menu {
+        display: block;
+      }
+
+      .dih-login {
+        display: none;
+      }
+
+      .dih-header-actions {
+        margin-left: auto;
+      }
+
+      .dih-hero {
+        padding: 20px 15px 24px;
+      }
+
+      .dih-main-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .dih-main-image-wrap {
+        min-height: 0;
+        aspect-ratio: 1.2 / 1;
+      }
+
+      .dih-info-card {
+        padding: 20px;
+      }
+
+      .dih-campaign-section {
+        padding: 27px 15px;
+      }
+
+      .dih-campaign-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dih-campaign-photo {
+        height: 190px;
+      }
+
+      .dih-footer {
+        padding: 20px 15px;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .dih-logo {
+        font-size: 22px;
+      }
+
+      .dih-info-card h1 {
+        font-size: 28px;
+      }
+
+      .dih-buy-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .dih-qty {
+        width: 100%;
+      }
+
+      .dih-buy {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="dih-app" id="dihApp">
+
+    <header class="dih-header">
+
+      <button class="dih-logo" id="dihHome">
+        DIH<span>CARS</span>
+        <small>RIFAS AUTOMOTIVAS</small>
+      </button>
+
+      <nav class="dih-nav">
+        <button id="dihCampaignsNav">Campanhas</button>
+        <button id="dihWinners">Ganhadores</button>
+        <button id="dihHow">Como funciona</button>
+        <button id="dihSupport">Suporte</button>
+        
+
+        
+
+      </nav>
+
+      <div class="dih-header-actions">
+        <button class="dih-login" id="dihLogin">Entrar</button>
+
+        <button
+          class="dih-cart-button"
+          id="dihCartButton"
+          aria-label="Abrir carrinho"
+        >
+          🛒
+          <span class="dih-cart-count" id="dihCartCount">0</span>
+        </button>
+
+        <button class="dih-menu" id="dihMenu">☰</button>
+      </div>
+
+    </header>
+
+
+    <main>
+
+      <section class="dih-hero">
+
+        <div class="dih-breadcrumb">
+          Início <span>/</span> Campanhas <span>/</span> Vectra GLS
+        </div>
+
+        <div class="dih-main-grid">
+
+          <div class="dih-gallery">
+
+            <div class="dih-main-image-wrap">
+
+              <img
+                id="dihMainImage"
+                class="dih-main-image"
+                src="/assets/vectra2.png"
+                alt="Chevrolet Vectra GLS 2.2 2000/2000"
+              >
+
+              <div class="dih-image-overlay"></div>
+
+              <span class="dih-feature-tag">
+                CAMPANHA EM DESTAQUE
+              </span>
+
+              <button class="dih-gallery-arrow left" id="dihPrev">‹</button>
+              <button class="dih-gallery-arrow right" id="dihNext">›</button>
+
+            </div>
+
+            <div class="dih-thumbs" id="dihThumbs"></div>
+
+          </div>
+
+
+          <div class="dih-info-card">
+
+            <div class="dih-status">
+              <i></i> CAMPANHA ATIVA
+            </div>
+
+            <h1 id="dihTitle">Vectra GLS ou 23mil no pix</h1>
+
+            <div class="dih-subtitle">
+              Uma experiência esportiva extraordinária.
+            </div>
+
+            <div class="dih-cash">
+              R$ 23.000,00 em alternativa de prêmio
+            </div>
+
+            <div class="dih-countdown-label">
+              Sorteio previsto para breve
+            </div>
+
+            <div class="dih-countdown">
+
+              <div class="dih-count-cell">
+                <strong id="dihDays">07</strong>
+                <span>DIAS</span>
+              </div>
+
+              <div class="dih-count-cell">
+                <strong id="dihHours">12</strong>
+                <span>HORAS</span>
+              </div>
+
+              <div class="dih-count-cell">
+                <strong id="dihMins">42</strong>
+                <span>MIN</span>
+              </div>
+
+              <div class="dih-count-cell">
+                <strong id="dihSecs">18</strong>
+                <span>SEG</span>
+              </div>
+
+            </div>
+
+            <div class="dih-stat-row">
+              <span><b>74%</b> das cotas preenchidas</span>
+              <span><b>26.000</b> restantes</span>
+            </div>
+
+            <div class="dih-progress">
+              <div></div>
+            </div>
+
+            <div class="dih-highlights">
+
+              <div class="dih-highlight">
+                <strong>R$ 10</strong>
+                <span>POR COTA</span>
+              </div>
+
+              <div class="dih-highlight">
+                <strong>80</strong>
+                <span>MÁX. POR COMPRA</span>
+              </div>
+
+              <div class="dih-highlight">
+                <strong>100.000</strong>
+                <span>TOTAL DE COTAS</span>
+              </div>
+
+            </div>
+
+            <div class="dih-buy-row">
+
+              <div class="dih-qty">
+                <button id="dihMinus">−</button>
+                <strong id="dihQty">5 cotas</strong>
+                <button id="dihPlus">+</button>
+              </div>
+
+              <button class="dih-buy" id="dihBuy">
+                Adicionar ao carrinho
+                <small id="dihBuyTotal">R$ 50,00</small>
+              </button>
+
+            </div>
+
+            <div class="dih-note">
+              Demonstração de interface. A compra real dependerá da integração oficial da plataforma.
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="dih-campaign-section" id="dihCampaignSection">
+
+        <div class="dih-section-title">
+          <div>
+            <h2>Outras campanhas</h2>
+            <p>Escolha sua próxima experiência.</p>
+          </div>
+
+          <button class="dih-view-all" id="dihViewAll">
+            Ver todas →
+          </button>
+        </div>
+
+
+        <div class="dih-campaign-grid">
+
+          <article class="dih-campaign-card">
+
+            <div class="dih-campaign-photo">
+              <img
+                src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=85"
+                alt="BMW M4"
+              >
+              <span class="dih-card-badge">ATIVA</span>
+            </div>
+
+            <div class="dih-campaign-body">
+              <h3>BMW M4 Competition</h3>
+              <p>Performance, design e exclusividade.</p>
+
+              <div class="dih-card-bottom">
+                <div>
+                  <label>A partir de</label>
+                  <strong>R$ 8 <small>/ cota</small></strong>
+                </div>
+
+                <button class="dih-card-btn" data-card="BMW M4 Competition">
+                  Participar
+                </button>
+              </div>
+            </div>
+
+          </article>
+
+
+          <article class="dih-campaign-card">
+
+            <div class="dih-campaign-photo">
+              <img
+                src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=85"
+                alt="Mercedes AMG"
+              >
+              <span class="dih-card-badge">NOVA</span>
+            </div>
+
+            <div class="dih-campaign-body">
+              <h3>Mercedes-AMG GT</h3>
+              <p>Elegância e potência em cada detalhe.</p>
+
+              <div class="dih-card-bottom">
+                <div>
+                  <label>A partir de</label>
+                  <strong>R$ 12 <small>/ cota</small></strong>
+                </div>
+
+                <button class="dih-card-btn" data-card="Mercedes-AMG GT">
+                  Participar
+                </button>
+              </div>
+            </div>
+
+          </article>
+
+
+          <article class="dih-campaign-card">
+
+            <div class="dih-campaign-photo">
+              <img
+                src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=800&q=85"
+                alt="Audi R8"
+              >
+              <span class="dih-card-badge">EM BREVE</span>
+            </div>
+
+            <div class="dih-campaign-body">
+              <h3>Audi R8 Performance</h3>
+              <p>Uma máquina feita para impressionar.</p>
+
+              <div class="dih-card-bottom">
+                <div>
+                  <label>A partir de</label>
+                  <strong>R$ 15 <small>/ cota</small></strong>
+                </div>
+
+                <button class="dih-card-btn" data-card="Audi R8 Performance">
+                  Conhecer
+                </button>
+              </div>
+            </div>
+
+          </article>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <footer class="dih-footer">
+      <div>
+        <b>DIH<span style="color:#f4b942">CARS</span></b><br>
+        Rifas automotivas • Experiências extraordinárias
+      </div>
+
+      <div class="dih-footer-links">
+        <button id="dihReg">Regulamento</button>
+        <button id="dihPrivacy">Privacidade</button>
+        <button id="dihFooterSupport">Suporte</button>
+        <a href="index.html" class="meu-botao">Modelo 1</a>
+        <a href="index2.html" class="meu-botao">Modelo 2</a>
+        <a href="index3.html" class="meu-botao">Modelo 3</a>
+      </div>
+    </footer>
+
+  </div>
+
+
+  <!-- CARRINHO -->
+
+  <div class="dih-cart-overlay" id="dihCartOverlay"></div>
+
+  <aside class="dih-cart-drawer" id="dihCartDrawer">
+
+    <div class="dih-cart-head">
+      <h2>Seu carrinhoo</h2>
+      <button class="dih-cart-close" id="dihCartClose">×</button>
+    </div>
+
+    <div class="dih-cart-body" id="dihCartBody">
+      <div class="dih-cart-empty">
+        Seu carrinho está vazio.<br>
+        Escolha uma campanha para começar.
+      </div>
+    </div>
+
+    <div class="dih-cart-foot">
+
+      <div class="dih-cart-total">
+        <span>Total da participação</span>
+        <strong id="dihCartTotal">R$ 0,00</strong>
+      </div>
+
+      <button class="dih-checkout" id="dihCheckout">
+        Continuar para pagamento →
+      </button>
+
+    </div>
+
+  </aside>
+
+  <div class="dih-toast" id="dihToast"></div>
+
+
+  <script>
+    const price = 10;
+    let qty = 5;
+    let cart = [];
+
+    const gallery = [
+      "/assets/vectra1.png",
+      "/assets/vectra2.png",
+      "/assets/vectra3.png"
+    ];
+
+    let galleryIndex = 0;
+
+    const $ = id => document.getElementById(id);
+
+    const money = value =>
+      value.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+
+
+    function updateQty() {
+      $("dihQty").textContent =
+        qty + (qty === 1 ? " cota" : " cotas");
+
+      $("dihBuyTotal").textContent = money(qty * price);
+    }
+
+
+    function showToast(message) {
+      $("dihToast").textContent = message;
+      $("dihToast").style.display = "block";
+
+      clearTimeout(window.dihToastTimer);
+
+      window.dihToastTimer = setTimeout(() => {
+        $("dihToast").style.display = "none";
+      }, 2600);
+    }
+
+
+    function renderThumbs() {
+      $("dihThumbs").innerHTML = gallery.map((src, i) =>
+        `<button class="dih-thumb ${i === galleryIndex ? "active" : ""}" data-thumb="${i}">
+          <img src="${src}" alt="Imagem ${i + 1}">
+        </button>`
+      ).join("");
+
+      $("dihThumbs").querySelectorAll("[data-thumb]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          galleryIndex = Number(btn.dataset.thumb);
+          $("dihMainImage").src = gallery[galleryIndex];
+          renderThumbs();
+        });
+      });
+    }
+
+
+    function openCart() {
+      $("dihCartDrawer").classList.add("open");
+      $("dihCartOverlay").classList.add("show");
+    }
+
+
+    function closeCart() {
+      $("dihCartDrawer").classList.remove("open");
+      $("dihCartOverlay").classList.remove("show");
+    }
+
+
+    function renderCart() {
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+
+      const total = cart.reduce(
+        (sum, item) => sum + item.qty * item.price,
+        0
+      );
+
+      $("dihCartCount").textContent = count;
+      $("dihCartTotal").textContent = money(total);
+
+      $("dihCartBody").innerHTML = cart.length
+        ? cart.map(item => `
+          <div class="dih-cart-item">
+            <img src="${item.image}" alt="${item.name}">
+            <div>
+              <h3>${item.name}</h3>
+              <p>${item.qty} cotas × ${money(item.price)}</p>
+              <strong>${money(item.qty * item.price)}</strong>
+            </div>
+          </div>
+        `).join("")
+        : `
+          <div class="dih-cart-empty">
+            Seu carrinho está vazio.<br>
+            Escolha uma campanha para começar.
+          </div>
+        `;
+    }
+
+
+    $("dihPlus").addEventListener("click", () => {
+      if (qty < 80) qty++;
+      updateQty();
+    });
+
+
+    $("dihMinus").addEventListener("click", () => {
+      if (qty > 1) qty--;
+      updateQty();
+    });
+
+
+    $("dihBuy").addEventListener("click", () => {
+      const existing = cart.find(
+        item => item.name === "Porsche 911 Carrera"
+      );
+
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({
+          name: "Porsche 911 Carrera",
+          qty,
+          price,
+          image: gallery[0]
+        });
+      }
+
+      renderCart();
+      openCart();
+      showToast("Campanha adicionada ao carrinho!");
+    });
+
+
+    $("dihCartButton").addEventListener("click", openCart);
+    $("dihCartClose").addEventListener("click", closeCart);
+    $("dihCartOverlay").addEventListener("click", closeCart);
+
+
+    $("dihPrev").addEventListener("click", () => {
+      galleryIndex =
+        (galleryIndex - 1 + gallery.length) % gallery.length;
+
+      $("dihMainImage").src = gallery[galleryIndex];
+      renderThumbs();
+    });
+
+
+    $("dihNext").addEventListener("click", () => {
+      galleryIndex =
+        (galleryIndex + 1) % gallery.length;
+
+      $("dihMainImage").src = gallery[galleryIndex];
+      renderThumbs();
+    });
+
+
+    document.querySelectorAll("[data-card]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        showToast(
+          btn.dataset.card + " selecionado para demonstração."
+        );
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      });
+    });
+
+
+    $("dihCheckout").addEventListener("click", () => {
+      if (!cart.length) {
+        showToast("Adicione uma campanha ao carrinho primeiro.");
+      } else {
+        showToast(
+          "Checkout demonstrativo — pronto para integração."
+        );
+      }
+    });
+
+
+    const messages = {
+      dihHow: "Aqui entrará o passo a passo de participação.",
+      dihWinners: "Área de ganhadores em desenvolvimento.",
+      dihLogin: "Área de login em desenvolvimento.",
+      dihReg: "Página de regulamento em desenvolvimento.",
+      dihPrivacy: "Página de privacidade em desenvolvimento.",
+      dihSupport: "Canal de suporte em desenvolvimento.",
+      dihFooterSupport: "Canal de suporte em desenvolvimento.",
+      dihMenu: "Menu mobile em desenvolvimento.",
+      dihCampaignsNav: "Você já está visualizando as campanhas.",
+      dihViewAll: "Todas as campanhas serão listadas aqui.",
+      dihHome: "Página inicial da DihCars."
+    };
+
+    [
+      "dihHome",
+      "dihCampaignsNav",
+      "dihViewAll",
+      "dihWinners",
+      "dihHow",
+      "dihSupport",
+      "dihLogin",
+      "dihMenu",
+      "dihReg",
+      "dihPrivacy",
+      "dihFooterSupport"
+    ].forEach(id => {
+      $(id).addEventListener("click", () => {
+        showToast(messages[id]);
+      });
+    });
+
+
+    let seconds = 7 * 86400 + 12 * 3600 + 42 * 60 + 18;
+
+    function tick() {
+      seconds = Math.max(0, seconds - 1);
+
+      const d = Math.floor(seconds / 86400);
+      const h = Math.floor((seconds % 86400) / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+
+      $("dihDays").textContent = String(d).padStart(2, "0");
+      $("dihHours").textContent = String(h).padStart(2, "0");
+      $("dihMins").textContent = String(m).padStart(2, "0");
+      $("dihSecs").textContent = String(s).padStart(2, "0");
+    }
+
+
+    renderThumbs();
+    updateQty();
+    renderCart();
+
+    setInterval(tick, 1000);
+  </script>
+
+</body>
+</html>

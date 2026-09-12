@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dih Cars — Vectra GLS 2.2 2000/2000</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08090b;
+    --panel:#131418;
+    --panel-2:#1a1c21;
+    --line:#282a30;
+    --red:#ff2d44;
+    --red-dim:#8f0f1e;
+    --cyan:#22d3ee;
+    --gold:#f2b13c;
+    --text:#f5f5f4;
+    --muted:#9497a0;
+    --sold:#35373d;
+    --green:#2fd06b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.5;}
+  h1,h2,h3{font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:0.005em;line-height:1.06;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;}
+  .wrap{max-width:1220px;margin:0 auto;padding:0 24px;}
+
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse 700px 500px at 85% -5%, rgba(34,211,238,0.08), transparent 60%),
+      radial-gradient(ellipse 600px 500px at 0% 20%, rgba(255,45,68,0.10), transparent 60%);
+  }
+
+  header{position:sticky;top:0;z-index:60;background:rgba(8,9,11,0.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{font-family:'Oswald',sans-serif;font-weight:700;font-size:20px;letter-spacing:0.02em;}
+  .logo span{color:var(--red);}
+  .navlinks{display:flex;gap:28px;font-size:14px;font-weight:500;color:var(--muted);}
+  .navlinks a:hover{color:var(--text);}
+  .nav-cta{background:var(--red);color:#fff;padding:9px 16px;border-radius:3px;font-weight:600;font-size:13px;border:none;cursor:pointer;}
+  .burger{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;}
+
+  /* ===== HERO: carro + números lado a lado, tudo na primeira tela ===== */
+  .hero{padding:32px 0 20px;position:relative;z-index:1;}
+  .hero-grid{display:grid;grid-template-columns:0.95fr 1.15fr;gap:22px;align-items:stretch;}
+
+  .car-card{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);min-height:520px;}
+  .car-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;}
+  .car-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(8,9,11,0) 30%, rgba(8,9,11,0.92) 100%);}
+  .car-info{position:absolute;left:0;right:0;bottom:0;padding:26px;z-index:2;}
+  .status-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,45,68,0.15);border:1px solid rgba(255,45,68,0.45);color:#ff6b7d;font-size:12px;font-weight:600;padding:5px 11px;border-radius:3px;margin-bottom:14px;}
+  .status-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:#ff6b7d;box-shadow:0 0 8px #ff6b7d;}
+  .car-info h1{font-size:clamp(26px,3vw,34px);margin-bottom:4px;}
+  .car-info .model{color:var(--gold);font-size:14.5px;font-weight:500;margin-bottom:14px;}
+  .car-chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);backdrop-filter:blur(6px);padding:7px 12px;border-radius:20px;font-size:12.5px;color:var(--text);}
+  .chip strong{color:var(--gold);}
+  .thumb-row{position:absolute;top:16px;right:16px;display:flex;gap:8px;z-index:2;}
+  .thumb-row img{width:46px;height:46px;object-fit:cover;border-radius:6px;border:2px solid rgba(255,255,255,0.25);cursor:pointer;}
+  .thumb-row img.active{border-color:var(--cyan);}
+
+  /* números panel */
+  .pick-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;display:flex;flex-direction:column;}
+  .pick-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px;}
+  .pick-top h2{font-size:22px;}
+  .pick-top p{color:var(--muted);font-size:13.5px;margin-top:4px;}
+  .price-badge{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:8px 14px;text-align:center;flex-shrink:0;}
+  .price-badge .v{font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;color:var(--gold);}
+  .price-badge .l{font-size:10px;color:var(--muted);text-transform:uppercase;}
+
+  .quick-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+  .qp{background:var(--panel-2);border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:20px;font-size:12.5px;font-weight:600;cursor:pointer;}
+  .qp:hover{border-color:var(--cyan);}
+  .qp.hot{background:linear-gradient(135deg,var(--red),var(--red-dim));border-color:transparent;}
+
+  .legend{display:flex;gap:14px;font-size:11.5px;color:var(--muted);margin-bottom:10px;}
+  .legend .dot{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:middle;}
+  .legend .dot.a{background:var(--panel-2);border:1px solid var(--line);}
+  .legend .dot.s{background:var(--cyan);}
+  .legend .dot.t{background:var(--sold);}
+
+  .grid-scroll{flex:1;overflow-y:auto;margin-bottom:16px;padding-right:4px;max-height:280px;}
+  .grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;}
+  .cell{aspect-ratio:1;background:var(--panel-2);border:1px solid var(--line);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;user-select:none;transition:transform .08s ease;}
+  .cell:hover:not(.taken){border-color:var(--cyan);color:var(--text);}
+  .cell.selected{background:var(--cyan);border-color:var(--cyan);color:#04262c;transform:scale(1.05);font-weight:700;}
+  .cell.taken{background:var(--sold);color:#54565c;cursor:not-allowed;text-decoration:line-through;}
+
+  .pick-bottom{border-top:1px solid var(--line);padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+  .total-box{font-size:13.5px;color:var(--muted);}
+  .total-box strong{display:block;font-family:'Oswald',sans-serif;font-size:24px;color:var(--text);}
+  .buy-cta{background:linear-gradient(135deg,var(--red),#c81530);color:#fff;border:none;padding:15px 28px;border-radius:8px;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 8px 24px rgba(255,45,68,0.3);}
+  .buy-cta:hover{transform:translateY(-1px);}
+  .buy-cta:disabled{opacity:0.4;cursor:not-allowed;box-shadow:none;}
+
+  /* ===== TRUST STRIP ===== */
+  .trust-strip{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;margin-top:28px;position:relative;z-index:1;}
+  .trust-row{display:flex;gap:32px;flex-wrap:wrap;justify-content:center;}
+  .trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);}
+  .trust-item svg{width:16px;height:16px;stroke:var(--green);flex-shrink:0;}
+
+  .section{padding:64px 0;position:relative;z-index:1;}
+  .section-head{max-width:600px;margin-bottom:32px;}
+  .eyebrow{color:var(--gold);font-size:12.5px;font-weight:600;margin-bottom:8px;}
+  .section-head h2{font-size:clamp(24px,3vw,30px);}
+  .section-head p{color:var(--muted);margin-top:8px;font-size:14.5px;}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .step{background:var(--panel);padding:26px 24px;}
+  .step .n{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;color:var(--red);margin-bottom:10px;}
+  .step h3{font-size:17px;margin-bottom:6px;}
+  .step p{color:var(--muted);font-size:13.5px;}
+
+  .winners{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .winner-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;}
+  .winner-card .tag{color:var(--gold);font-size:11px;font-weight:600;margin-bottom:6px;}
+  .winner-card h3{font-size:16px;margin-bottom:3px;}
+  .winner-card p{color:var(--muted);font-size:13px;}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;position:relative;z-index:1;}
+  .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+  .foot-links{display:flex;gap:18px;font-size:12.5px;color:var(--muted);}
+  .copyright{color:var(--muted);font-size:11.5px;margin-top:14px;}
+
+  .sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:70;background:rgba(8,9,11,0.97);border-top:1px solid var(--line);backdrop-filter:blur(8px);padding:12px 16px;align-items:center;justify-content:space-between;gap:12px;}
+  .sticky-bar .p{font-size:12.5px;color:var(--muted);}
+  .sticky-bar .p strong{display:block;font-family:'Oswald',sans-serif;font-size:17px;color:var(--text);}
+  .sticky-bar button{background:var(--red);color:#fff;border:none;padding:12px 18px;border-radius:6px;font-weight:700;font-size:13.5px;}
+
+  .modal-backdrop{position:fixed;inset:0;background:rgba(4,5,6,0.8);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .modal-backdrop.open{display:flex;}
+  .modal{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:28px;width:100%;max-width:400px;position:relative;}
+  .modal h3{font-size:19px;margin-bottom:5px;}
+  .modal .sub{color:var(--muted);font-size:13px;margin-bottom:18px;}
+  .field{margin-bottom:13px;}
+  .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;}
+  .field input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px;color:var(--text);font-size:13.5px;font-family:inherit;}
+  .field input:focus{outline:none;border-color:var(--cyan);}
+  .modal-actions{display:flex;gap:10px;margin-top:18px;}
+  .btn-ghost{background:transparent;color:var(--text);padding:12px;border-radius:6px;font-weight:600;font-size:13.5px;border:1px solid var(--line);cursor:pointer;flex:1;}
+  .modal-actions .buy-cta{flex:1;padding:12px;}
+  .close-x{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:6px;}
+
+  @media(max-width:920px){
+    .navlinks{display:none;}
+    .burger{display:block;}
+    .hero-grid{grid-template-columns:1fr;}
+    .car-card{min-height:280px;}
+    .steps{grid-template-columns:1fr;}
+    .winners{grid-template-columns:1fr;}
+    .grid{grid-template-columns:repeat(6,1fr);}
+    .sticky-bar{display:flex;}
+    body{padding-bottom:64px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">DIH<span>CARS</span></div>
+    <nav class="navlinks">
+      <a href="#numeros">Escolher Números</a>
+      <a href="#como-funciona">Como Funciona</a>
+      <a href="#ganhadores">Ganhadores</a>
+      <a href="https://www.instagram.com/dihcars.projects/" target="_blank">Instagram</a>
+    </nav>
+    <button class="nav-cta" onclick="document.getElementById('numeros').scrollIntoView({behavior:'smooth'})">Comprar</button>
+    <button class="burger">☰</button>
+  </div>
+</header>
+
+<section class="hero" id="numeros">
+  <div class="wrap hero-grid">
+
+    <div class="car-card">
+      <div class="thumb-row">
+        <img src="/assets/vectra1.webp" class="active" onclick="swapMain(this,'/assets/vectra1.webp')" alt="frente">
+        <img src="/assets/vectra2.webp" onclick="swapMain(this,'/assets/vectra2.webp')" alt="lateral rua">
+        <img src="/assets/vectra3.webp" onclick="swapMain(this,'/assets/vectra3.webp')" alt="lateral garagem">
+      </div>
+      <img id="mainCarImg" src="/assets/vectra1.webp" alt="Chevrolet Vectra GLS 2.2 2000/2000">
+      <div class="car-info">
+        <div class="status-pill">Sorteio em andamento</div>
+        <h1>Chevrolet Vectra GLS 2.2</h1>
+        <div class="model">2000/2000 · Revisado · Documentação em dia</div>
+        <div class="car-chips">
+          <div class="chip">ou <strong>R$ 23.000</strong> em dinheiro</div>
+          <div class="chip"><strong>680</strong>/1000 números vendidos</div>
+          <div class="chip">Sorteio pela <strong>Loteria Federal</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pick-card">
+      <div class="pick-top">
+        <div>
+          <h2>Escolha seus números</h2>
+          <p>Toque para selecionar. Cinza = já reservado por outra pessoa.</p>
+        </div>
+        <div class="price-badge"><div class="v">R$ 59</div><div class="l">por número</div></div>
+      </div>
+
+      <div class="quick-row">
+        <button class="qp hot" onclick="quickPick(10)">+10 aleatórios</button>
+        <button class="qp" onclick="quickPick(5)">+5 aleatórios</button>
+        <button class="qp" onclick="quickPick(20)">+20 aleatórios</button>
+        <button class="qp" onclick="clearPick()">Limpar</button>
+      </div>
+
+      <div class="legend">
+        <span><span class="dot a"></span>Disponível</span>
+        <span><span class="dot s"></span>Selecionado</span>
+        <span><span class="dot t"></span>Reservado</span>
+      </div>
+
+      <div class="grid-scroll"><div class="grid" id="numberGrid"></div></div>
+
+      <div class="pick-bottom">
+        <div class="total-box"><span id="selCount">0</span> número(s) selecionado(s)<strong id="selTotal">R$ 0,00</strong></div>
+        <button class="buy-cta" id="buyBtn" onclick="openModal()" disabled>Comprar Agora</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="trust-strip">
+  <div class="wrap trust-row">
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>Sorteio oficial pela Loteria Federal</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>Pagamento via Pix, confirmação na hora</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>Números garantidos no seu nome</div>
+  </div>
+</div>
+
+<section class="section" id="como-funciona">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">SIMPLES E SEGURO</div>
+      <h2>Como funciona</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>Escolha os números</h3><p>Selecione manualmente ou use o sorteio automático de números aleatórios.</p></div>
+      <div class="step"><div class="n">02</div><h3>Pague com Pix</h3><p>Confirmação automática. Seus números ficam reservados no seu nome na hora.</p></div>
+      <div class="step"><div class="n">03</div><h3>Aguarde o sorteio</h3><p>Resultado pela Loteria Federal. Avisamos o ganhador direto no WhatsApp.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="ganhadores" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">JÁ ENTREGAMOS</div>
+      <h2>Últimos sorteios realizados</h2>
+    </div>
+    <div class="winners">
+      <div class="winner-card"><div class="tag">JUNHO / 2026</div><h3>Fusca 1300 1974</h3><p>Ganhador: J. Almeida — Mongaguá/SP</p></div>
+      <div class="winner-card"><div class="tag">ABRIL / 2026</div><h3>Opala Comodoro 1985</h3><p>Ganhador: R. Santos — Praia Grande/SP</p></div>
+      <div class="winner-card"><div class="tag">FEVEREIRO / 2026</div><h3>Kombi 1978</h3><p>Ganhador: M. Ferreira — Itanhaém/SP</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="logo">DIH<span style="color:var(--red)">CARS</span></div>
+      <div class="foot-links">
+        <a href="https://www.instagram.com/dihcars.projects/" target="_blank">Instagram</a>
+        <a href="index.html" class="meu-botao">Modelo 1</a>
+        <a href="index2.html" class="meu-botao">Modelo 2</a>
+        <a href="index3.html" class="meu-botao">Modelo 3</a>
+
+
+
+      </div>
+    </div>
+    <div class="copyright">© 2026 Dih Cars. Todos os direitos reservados. Sorteios realizados pela Loteria Federal.</div>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <div class="p" id="stickyLabel">0 número(s)<strong id="stickyTotal">R$ 0,00</strong></div>
+  <button onclick="openModal()">Comprar</button>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <button class="close-x" onclick="closeModal()">✕</button>
+    <h3>Finalizar reserva</h3>
+    <p class="sub"><span id="modalCount">0</span> número(s) — Total <strong id="modalTotal">R$ 0,00</strong></p>
+    <div class="field"><label>Nome completo</label><input type="text" placeholder="Seu nome"></div>
+    <div class="field"><label>WhatsApp</label><input type="text" placeholder="(13) 90000-0000"></div>
+    <div class="field"><label>CPF</label><input type="text" placeholder="000.000.000-00"></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal()">Cancelar</button>
+      <button class="buy-cta" onclick="closeModal()">Gerar Pix</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const PRICE = 59;
+  const TOTAL_NUMBERS = 96;
+  const takenSet = new Set([3,7,12,18,25,31,44,52,58,63,71,79,84,90]);
+  const selected = new Set();
+  const grid = document.getElementById('numberGrid');
+
+  for(let i=1;i<=TOTAL_NUMBERS;i++){
+    const cell = document.createElement('div');
+    cell.className = 'cell' + (takenSet.has(i) ? ' taken' : '');
+    cell.textContent = String(i).padStart(3,'0');
+    cell.dataset.n = i;
+    if(!takenSet.has(i)) cell.addEventListener('click', ()=>toggle(i, cell));
+    grid.appendChild(cell);
+  }
+
+  function fmt(v){ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
+
+  function toggle(n, cell){
+    if(selected.has(n)){ selected.delete(n); cell.classList.remove('selected'); }
+    else { selected.add(n); cell.classList.add('selected'); }
+    updateTotals();
+  }
+
+  function updateTotals(){
+    const count = selected.size;
+    const total = fmt(count*PRICE);
+    document.getElementById('selCount').textContent = count;
+    document.getElementById('selTotal').textContent = total;
+    document.getElementById('stickyLabel').firstChild.textContent = count + ' número(s) ';
+    document.getElementById('stickyTotal').textContent = total;
+    document.getElementById('buyBtn').disabled = count === 0;
+  }
+
+  function quickPick(n){
+    const available = [...grid.children].filter(c => !c.classList.contains('taken') && !c.classList.contains('selected'));
+    for(let i=0;i<n && available.length;i++){
+      const idx = Math.floor(Math.random()*available.length);
+      const cell = available.splice(idx,1)[0];
+      toggle(Number(cell.dataset.n), cell);
+    }
+  }
+
+  function clearPick(){
+    selected.forEach(n=>{
+      const cell = [...grid.children].find(c=>Number(c.dataset.n)===n);
+      if(cell) cell.classList.remove('selected');
+    });
+    selected.clear();
+    updateTotals();
+  }
+
+  function swapMain(el, src){
+    document.getElementById('mainCarImg').src = src;
+    document.querySelectorAll('.thumb-row img').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function openModal(){
+    if(selected.size === 0) return;
+    document.getElementById('modalCount').textContent = selected.size;
+    document.getElementById('modalTotal').textContent = fmt(selected.size*PRICE);
+    document.getElementById('modalBackdrop').classList.add('open');
+  }
+  function closeModal(){ document.getElementById('modalBackdrop').classList.remove('open'); }
+</script>
+
+</body>
+</html>
